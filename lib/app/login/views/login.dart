@@ -69,7 +69,6 @@ class _LoginState extends State<Login> {
     final auth = authFromJson(response.body);
     //authentications cheek here....
     if (auth.status == 'true') {
-      // use the returned token to send messages to users from your custom server
       loginC.tokenCache(auth.token);
 
       SharedPreferences getToken = await SharedPreferences.getInstance();
