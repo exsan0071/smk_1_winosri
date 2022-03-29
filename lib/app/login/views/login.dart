@@ -355,7 +355,6 @@ class _LoginState extends State<Login> {
                                         ],
                                       ),
                                     ),
-
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
