@@ -355,29 +355,7 @@ class _LoginState extends State<Login> {
                                         ],
                                       ),
                                     ),
-                                    // if (!loginC.isGuru)
-                                    //   SingleChildScrollView(
-                                    //     padding: const EdgeInsets.only(top: 20),
-                                    //     child: Column(
-                                    //       children: [
-                                    //         const Text('Login Guru'),
-                                    //         buildUsername(),
-                                    //         const SizedBox(
-                                    //           height: 10,
-                                    //         ),
-                                    //         password(),
-                                    //         TextButton(
-                                    //             onPressed: () {
-                                    //               Get.toNamed('/resetPassword');
-                                    //             },
-                                    //             child: const Text(
-                                    //                 'Forget Passwword ?',
-                                    //                 style: TextStyle(
-                                    //                     fontSize: 12))),
-                                    //       ],
-                                    //     ),
-                                    //   ),
-                                    // if (loginC.isGuru)
+
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
