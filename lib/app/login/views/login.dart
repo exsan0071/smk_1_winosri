@@ -193,34 +193,6 @@ class _LoginState extends State<Login> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
-                                        // GestureDetector(
-                                        //   onTap: () {
-                                        //     setState(() {
-                                        //       loginC.isGuru = false;
-                                        //     });
-                                        //   },
-                                        //   child: Column(
-                                        //     children: [
-                                        //       Text(
-                                        //         'Guru',
-                                        //         style: TextStyle(
-                                        //             fontSize: 16,
-                                        //             fontWeight: FontWeight.bold,
-                                        //             color: loginC.isGuru
-                                        //                 ? Colors.blue[300]
-                                        //                 : Colors.blue[700]),
-                                        //       ),
-                                        //       if (!loginC.isGuru)
-                                        //         Container(
-                                        //           margin: const EdgeInsets.only(
-                                        //               top: 3),
-                                        //           height: 2,
-                                        //           width: 55,
-                                        //           color: Colors.red,
-                                        //         )
-                                        //     ],
-                                        //   ),
-                                        // ),
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
