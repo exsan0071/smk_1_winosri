@@ -1,0 +1,196 @@
+{
+  "project_info": {
+    "project_number": "198146647182",
+    "firebase_url": "https://smartschool-application-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "smartschool-application",
+    "storage_bucket": "smartschool-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198146647182:android:b7efd2c80be1cbe33315df",
+        "android_client_info": {
+          "package_name": "com.aricode.smasmkn1contoh.watulintang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198146647182-0v9f165n72nnk3trg43mfe7gug77k32h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aricode.smasmkn1contoh.watulintang",
+            "certificate_hash": "95cbe82ff978cbc1f36c57a5972e8e99e873a7fa"
+          }
+        },
+        {
+          "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbHICtv02SYDzjUOSQ0JmfzmZV1SRub7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198146647182:android:afafdf46db6aa0bd3315df",
+        "android_client_info": {
+          "package_name": "com.aricode.watulintang.sma1contoh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198146647182-oi2kkdunkma179eng82jrdo5t1u6ibt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aricode.watulintang.sma1contoh",
+            "certificate_hash": "c0ba2fa7f6a2b14e6b62cb327b9e797c25a5b26c"
+          }
+        },
+        {
+          "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbHICtv02SYDzjUOSQ0JmfzmZV1SRub7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198146647182:android:8f04bf9f1fbe94e63315df",
+        "android_client_info": {
+          "package_name": "com.aricode.watulintang.smk4yogyakata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198146647182-cnppt3jo8at4tdao0s64uunpf79ll61l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aricode.watulintang.smk4yogyakata",
+            "certificate_hash": "ca5fdbdd39df98dd07df3919ea2c8fe44477fa50"
+          }
+        },
+        {
+          "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbHICtv02SYDzjUOSQ0JmfzmZV1SRub7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198146647182:android:091726dcdab77fe63315df",
+        "android_client_info": {
+          "package_name": "com.aricode.watulintang.smkn1wonosari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198146647182-ak8bl0aqg8hkduq5ulepjn9p7pdqt71r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aricode.watulintang.smkn1wonosari",
+            "certificate_hash": "3126b3589435612b3dc39accb29394753bf19d71"
+          }
+        },
+        {
+          "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbHICtv02SYDzjUOSQ0JmfzmZV1SRub7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198146647182:android:b037844726d6e32b3315df",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_smatanjungsari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198146647182-eout9a8184lv0q3q970l5p3of3hrpuok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_application_smatanjungsari",
+            "certificate_hash": "5cf56e3f065bb5f96a5b528336a1957b8e2c9421"
+          }
+        },
+        {
+          "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbHICtv02SYDzjUOSQ0JmfzmZV1SRub7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198146647182-t6bs09o7v2jurcne3a9gkh021683bf7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
