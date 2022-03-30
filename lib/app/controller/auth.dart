@@ -72,7 +72,7 @@ class _AuthState extends State<Auth> with SingleTickerProviderStateMixin {
       }
       if (message?.data['url'] != null) {
         _launchURLGoolePlay(
-            message?.data['url'] + "com.aricode.watulintang.sma1contoh");
+            message?.data['url'] + "com.aricode.watulintang.smkn1wonosari");
       }
     });
     var initialzationSettingsAndroid =
