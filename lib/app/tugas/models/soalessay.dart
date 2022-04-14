@@ -1,16 +1,15 @@
 // To parse this JSON data, do
 //
-//     final getOptions = getOptionsFromJson(jsonString);
+//     final soalEssay = soalEssayFromJson(jsonString);
 
 import 'dart:convert';
 
-GetOptions getOptionsFromJson(String str) =>
-    GetOptions.fromJson(json.decode(str));
+SoalEssay soalEssayFromJson(String str) => SoalEssay.fromJson(json.decode(str));
 
-String getOptionsToJson(GetOptions data) => json.encode(data.toJson());
+String soalEssayToJson(SoalEssay data) => json.encode(data.toJson());
 
-class GetOptions {
-  GetOptions({
+class SoalEssay {
+  SoalEssay({
     required this.status,
     required this.data,
   });
@@ -18,7 +17,7 @@ class GetOptions {
   bool status;
   Data data;
 
-  factory GetOptions.fromJson(Map<String, dynamic> json) => GetOptions(
+  factory SoalEssay.fromJson(Map<String, dynamic> json) => SoalEssay(
         status: json["status"],
         data: Data.fromJson(json["data"]),
       );
@@ -36,7 +35,7 @@ class Data {
     required this.jurusan,
     required this.pesan,
     required this.soal,
-    required this.opsijawaban,
+    required this.jawabansaya,
     required this.soalTipe,
     required this.waktu,
     required this.statusTes,
@@ -47,78 +46,61 @@ class Data {
   String jurusan;
   String pesan;
   Soal soal;
-  List<Opsijawaban> opsijawaban;
+  Jawabansaya jawabansaya;
   String soalTipe;
   Waktu waktu;
   String statusTes;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        judul: json["judul"],
-        kelas: json["kelas"],
-        jurusan: json["jurusan"],
-        pesan: json["pesan"],
+        judul: json["judul"].toString(),
+        kelas: json["kelas"].toString(),
+        jurusan: json["jurusan"].toString(),
+        pesan: json["pesan"].toString(),
         soal: Soal.fromJson(json["soal"]),
-        opsijawaban: List<Opsijawaban>.from(
-            json["opsijawaban"].map((x) => Opsijawaban.fromJson(x))),
-        soalTipe: json["soal_tipe"],
+        jawabansaya: Jawabansaya.fromJson(json["jawabansaya"]),
+        soalTipe: json["soal_tipe"].toString(),
         waktu: Waktu.fromJson(json["waktu"]),
-        statusTes: json["status_tes"],
+        statusTes: json["status_tes"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
         "judul": judul,
         "kelas": kelas,
         "jurusan": jurusan,
-        "pesan": pesan.toString(),
+        "pesan": pesan,
         "soal": soal.toJson(),
-        "opsijawaban": List<dynamic>.from(opsijawaban.map((x) => x.toJson())),
+        "jawabansaya": jawabansaya.toJson(),
         "soal_tipe": soalTipe,
         "waktu": waktu.toJson(),
         "status_tes": statusTes,
       };
 }
 
-class Opsijawaban {
-  Opsijawaban({
-    required this.nomor,
-    required this.opsi,
+class Jawabansaya {
+  Jawabansaya({
+    required this.progress,
+    required this.filejawban,
+    required this.linkexternal,
+    required this.keterangan,
   });
 
-  int nomor;
-  List<Opsi> opsi;
+  int progress;
+  String filejawban;
+  String linkexternal;
+  String keterangan;
 
-  factory Opsijawaban.fromJson(Map<String, dynamic> json) => Opsijawaban(
-        nomor: json["nomor"],
-        opsi: List<Opsi>.from(json["opsi"].map((x) => Opsi.fromJson(x))),
+  factory Jawabansaya.fromJson(Map<String, dynamic> json) => Jawabansaya(
+        progress: json["progress"],
+        filejawban: json["filejawban"].toString(),
+        linkexternal: json["linkexternal"].toString(),
+        keterangan: json["keterangan"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
-        "nomor": nomor,
-        "opsi": List<dynamic>.from(opsi.map((x) => x.toJson())),
-      };
-}
-
-class Opsi {
-  Opsi({
-    required this.key,
-    required this.jawab,
-    required this.status,
-  });
-
-  String key;
-  String jawab;
-  String status;
-
-  factory Opsi.fromJson(Map<String, dynamic> json) => Opsi(
-        key: json["key"],
-        jawab: json["jawab"],
-        status: json["status"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "key": key,
-        "jawab": jawab,
-        "status": status,
+        "progress": progress,
+        "filejawban": filejawban,
+        "linkexternal": linkexternal,
+        "keterangan": keterangan,
       };
 }
 
@@ -129,6 +111,7 @@ class Soal {
     required this.ext,
     required this.type,
     required this.pesan,
+    required this.text,
   });
 
   String file;
@@ -136,13 +119,15 @@ class Soal {
   String ext;
   String type;
   String pesan;
+  String text;
 
   factory Soal.fromJson(Map<String, dynamic> json) => Soal(
-        file: json["file"],
+        file: json["file"].toString(),
         status: json["status"],
-        ext: json["ext"],
-        type: json["type"],
-        pesan: json["pesan"],
+        ext: json["ext"].toString(),
+        type: json["type"].toString(),
+        pesan: json["pesan"].toString(),
+        text: json["text"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -172,12 +157,12 @@ class Waktu {
   String waktuStatus;
 
   factory Waktu.fromJson(Map<String, dynamic> json) => Waktu(
-        startTanggal: json["start_tanggal"],
-        endTanggal: json["end_tanggal"],
-        startTime: json["start_time"],
-        endTime: json["end_time"],
-        status: json["status"],
-        waktuStatus: json["waktu_status"],
+        startTanggal: json["start_tanggal"].toString(),
+        endTanggal: json["end_tanggal"].toString(),
+        startTime: json["start_time"].toString(),
+        endTime: json["end_time"].toString(),
+        status: json["status"].toString(),
+        waktuStatus: json["waktu_status"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

@@ -8,13 +8,15 @@ import 'package:lottie/lottie.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../tugas/views/tugas_siswa.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
-
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../../controller/baselink.dart';
-import '../models/jawaban_models.dart';
+import '../models/soaloptions.dart';
 import '../models/riwayat_pengerjaan.dart';
 import '../models/send_all_jawaban.dart';
 import '../providers/tugas_providers.dart';
+import '../widget/costom_menu.dart';
 
 class PengerjaanTugas extends StatefulWidget {
   const PengerjaanTugas({
@@ -174,7 +176,7 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
         body: Stack(
           children: [
             FutureBuilder<GetOptions?>(
-                future: tugasProvider.getKerjakanTugas(widget.id),
+                future: tugasProvider.soalOptions(widget.id),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -187,21 +189,32 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                     );
                   } else {
                     if (snapshot.hasData) {
-                      return snapshot.data!.data.soal.ext != "pdf"
+                      return snapshot.data!.data.soal.ext != "pdf" &&
+                              snapshot.data!.data.soal.type == "umum"
                           ? SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child:
                                   Image.network(snapshot.data!.data.soal.file),
                             )
-                          : Container(
-                              child: const PDF().cachedFromUrl(
-                                snapshot.data!.data.soal.file,
-                                placeholder: (double progress) =>
-                                    Center(child: Text('$progress %')),
-                                errorWidget: (dynamic error) =>
-                                    Center(child: Text(error.toString())),
-                              ),
-                            );
+                          : snapshot.data!.data.soal.ext == "pdf"
+                              ? Container(
+                                  child: const PDF().cachedFromUrl(
+                                    snapshot.data!.data.soal.file,
+                                    placeholder: (double progress) =>
+                                        Center(child: Text('$progress %')),
+                                    errorWidget: (dynamic error) =>
+                                        Center(child: Text(error.toString())),
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(20),
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  color: Colors.white,
+                                  child: HtmlWidget(
+                                    //to show HTML as widget.
+                                    snapshot.data!.data.soal.text,
+                                  ));
                     } else {
                       return Center(
                         child: Column(
@@ -234,7 +247,7 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                     top: 0,
                     bottom: 0,
                     left: isSideBarOpenedAsync.data! ? 0 : 0,
-                    right: isSideBarOpenedAsync.data! ? 0 : _width - 45,
+                    right: isSideBarOpenedAsync.data! ? 0 : _width - 35,
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -257,8 +270,8 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                   color: Colors.white.withOpacity(0.3),
                                 ),
                                 FutureBuilder<GetOptions?>(
-                                    future: tugasProvider
-                                        .getKerjakanTugas(widget.id),
+                                    future:
+                                        tugasProvider.soalOptions(widget.id),
                                     builder: (BuildContext context, snapshot) {
                                       if (snapshot.hasData) {
                                         return ListView.builder(
@@ -352,7 +365,7 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                                                               .green),
                                                               onPressed:
                                                                   () async {
-                                                                ProgressDialog
+                                                                ProgressDialog //loading progres indikator
                                                                     pd =
                                                                     ProgressDialog(
                                                                         context:
@@ -367,6 +380,7 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                                                 );
                                                                 await Future.delayed(
                                                                     const Duration(
+                                                                        //durasi proses
                                                                         milliseconds:
                                                                             3000));
                                                                 for (int i = 0;
@@ -406,6 +420,9 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                                                             .blue,
                                                                       ),
                                                                     ]).show();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
                                                               },
                                                               child: Text(
                                                                 "Simpan Sementara",
@@ -417,16 +434,18 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                                           ),
                                                           ElevatedButton(
                                                               onPressed: () {
-                                                                tugasProvider.addJawaban(
-                                                                    widget.id,
-                                                                    snapshot
-                                                                        .data!
-                                                                        .data
-                                                                        .opsijawaban[
-                                                                            index]
-                                                                        .nomor
-                                                                        .toString(),
-                                                                    key);
+                                                                tugasProvider
+                                                                    .addJawaban(
+                                                                  widget.id,
+                                                                  snapshot
+                                                                      .data!
+                                                                      .data
+                                                                      .opsijawaban[
+                                                                          index]
+                                                                      .nomor
+                                                                      .toString(),
+                                                                  key,
+                                                                );
                                                                 setState(() {
                                                                   indexNo++;
                                                                   indexToi = '';
@@ -471,6 +490,8 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.red),
                                       onPressed: () async {
+                                        tugasProvider.addJawabanFinis(
+                                            widget.id, '', key, false);
                                         ProgressDialog pd =
                                             ProgressDialog(context: context);
                                         pd.show(
@@ -488,7 +509,11 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
                                           await Future.delayed(const Duration(
                                               milliseconds: 100));
                                         }
-                                        Navigator.of(context).pop();
+
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const TugsSiswaViews()));
                                       },
                                       child: Text(
                                         "Selesai",
@@ -534,30 +559,5 @@ class _PengerjaanTugasState extends State<PengerjaanTugas>
         ),
       ),
     );
-  }
-}
-
-class CustomMenuClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Paint paint = Paint();
-    paint.color = Colors.white;
-
-    final width = size.width;
-    final height = size.height;
-
-    Path path = Path();
-    path.moveTo(0, 0);
-    path.quadraticBezierTo(0, 8, 10, 16);
-    path.quadraticBezierTo(width - 1, height / 2 - 20, width, height / 2);
-    path.quadraticBezierTo(width + 1, height / 2 + 20, 10, height - 16);
-    path.quadraticBezierTo(0, height - 8, 0, height);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

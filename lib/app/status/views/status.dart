@@ -159,9 +159,11 @@ class _StatusPageState extends State<StatusPage> {
 
   Future<void> onLoading() async {
     await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _offset = _offset + 5;
-    });
+    if (mounted) {
+      setState(() {
+        _offset = _offset + 5;
+      });
+    }
     getStatus(_offset);
     onRefresC.loadComplete();
   }

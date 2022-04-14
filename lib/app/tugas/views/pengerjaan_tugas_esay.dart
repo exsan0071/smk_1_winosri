@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -14,8 +15,10 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import '../../controller/baselink.dart';
-import '../models/jawaban_models.dart';
+import '../models/soalessay.dart';
 import '../providers/tugas_providers.dart';
+import '../widget/costom_menu.dart';
+import 'tugas_siswa.dart';
 
 class PengerjaanTugasEsay extends StatefulWidget {
   const PengerjaanTugasEsay({
@@ -39,6 +42,8 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
   File? file;
   DateTime timeBackPressed = DateTime.now();
   String? uRL;
+
+  Codec<String, String> stringToBase64Url = utf8.fuse(base64Url);
 
   final TugasProvider tugasProvider = TugasProvider();
   final _animatedDurations = const Duration(microseconds: 500);
@@ -117,8 +122,8 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
         ),
         body: Stack(
           children: [
-            FutureBuilder<GetOptions?>(
-                future: tugasProvider.getKerjakanTugas(widget.id),
+            FutureBuilder<SoalEssay?>(
+                future: tugasProvider.soalEssay(widget.id),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -131,21 +136,32 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
                     );
                   } else {
                     if (snapshot.hasData) {
-                      return snapshot.data!.data.soal.ext != "pdf"
+                      return snapshot.data!.data.soal.ext != "pdf" &&
+                              snapshot.data!.data.soal.type == "umum"
                           ? SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child:
                                   Image.network(snapshot.data!.data.soal.file),
                             )
-                          : Container(
-                              child: const PDF().cachedFromUrl(
-                                snapshot.data!.data.soal.file,
-                                placeholder: (double progress) =>
-                                    Center(child: Text('$progress %')),
-                                errorWidget: (dynamic error) =>
-                                    Center(child: Text(error.toString())),
-                              ),
-                            );
+                          : snapshot.data!.data.soal.ext == "pdf"
+                              ? Container(
+                                  child: const PDF().cachedFromUrl(
+                                    snapshot.data!.data.soal.file,
+                                    placeholder: (double progress) =>
+                                        Center(child: Text('$progress %')),
+                                    errorWidget: (dynamic error) =>
+                                        Center(child: Text(error.toString())),
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(20),
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  color: Colors.white,
+                                  child: HtmlWidget(
+                                    //to show HTML as widget.
+                                    snapshot.data!.data.soal.text,
+                                  ));
                     } else {
                       return Center(
                         child: Column(
@@ -178,7 +194,7 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
                     top: 0,
                     bottom: 0,
                     left: isSideBarOpenedAsync.data! ? 0 : 0,
-                    right: isSideBarOpenedAsync.data! ? 0 : _width - 45,
+                    right: isSideBarOpenedAsync.data! ? 0 : _width - 35,
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -382,7 +398,7 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.green),
                                       onPressed: () async {
-                                        postIzinSiswa(widget.id, false);
+                                        postJawabanSiswa(widget.id, false);
                                         ProgressDialog pd =
                                             ProgressDialog(context: context);
                                         pd.show(
@@ -416,7 +432,7 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.red),
                                       onPressed: () async {
-                                        postIzinSiswa(widget.id, true);
+                                        postJawabanSiswa(widget.id, true);
                                         ProgressDialog pd =
                                             ProgressDialog(context: context);
                                         pd.show(
@@ -434,7 +450,10 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
                                           await Future.delayed(const Duration(
                                               milliseconds: 100));
                                         }
-                                        Navigator.of(context).pop();
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const TugsSiswaViews()));
                                       },
                                       child: Text(
                                         "Selesai",
@@ -459,7 +478,7 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
                               child: Container(
                                 color: const Color.fromARGB(255, 24, 144, 155),
                                 width: 35,
-                                height: 110,
+                                height: 90,
                                 alignment: Alignment.centerLeft,
                                 child: AnimatedIcon(
                                   progress: _animationController.view,
@@ -489,7 +508,7 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
     setState(() => file = File(path));
   }
 
-  Future postIzinSiswa(String id, bool simpan) async {
+  Future postJawabanSiswa(String id, bool simpan) async {
     if (file == null) return;
 
     SharedPreferences getToken = await SharedPreferences.getInstance();
@@ -529,30 +548,5 @@ class _PengerjaanTugasEsayState extends State<PengerjaanTugasEsay>
       // ignore: avoid_print
       print(response.reasonPhrase);
     }
-  }
-}
-
-class CustomMenuClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Paint paint = Paint();
-    paint.color = Colors.white;
-
-    final width = size.width;
-    final height = size.height;
-
-    Path path = Path();
-    path.moveTo(0, 0);
-    path.quadraticBezierTo(0, 8, 10, 16);
-    path.quadraticBezierTo(width - 1, height / 2 - 20, width, height / 2);
-    path.quadraticBezierTo(width + 1, height / 2 + 20, 10, height - 16);
-    path.quadraticBezierTo(0, height - 8, 0, height);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

@@ -1585,7 +1585,7 @@ class _TugsSiswaViewsState extends State<TugsSiswaViews> {
                                                                         MainAxisSize
                                                                             .max,
                                                                     children: [
-                                                                      const CircleAvatar(
+                                                                      CircleAvatar(
                                                                           radius:
                                                                               23,
                                                                           backgroundColor: Colors
@@ -1594,8 +1594,9 @@ class _TugsSiswaViewsState extends State<TugsSiswaViews> {
                                                                               CircleAvatar(
                                                                             radius:
                                                                                 20,
-                                                                            backgroundImage:
-                                                                                NetworkImage('https://sma1contoh.sekolahkita.net/assets/images/guru/thumb/1638259581-wanita-min_thumb.png'),
+                                                                            backgroundImage: snapshot.data!.data[index].avatarGuru.toString() == "null"
+                                                                                ? const NetworkImage('https://sma1contoh.sekolahkita.net/assets/images/guru/thumb/1638259581-wanita-min_thumb.png')
+                                                                                : NetworkImage(snapshot.data!.data[index].avatarGuru.toString()),
                                                                           )),
                                                                       const SizedBox(
                                                                         width:
@@ -1755,32 +1756,34 @@ class _TugsSiswaViewsState extends State<TugsSiswaViews> {
                                                                                   )),
                                                                             ]),
                                                                       ),
-                                                                      Container(
-                                                                        margin: const EdgeInsets.only(
-                                                                            top:
-                                                                                10),
-                                                                        padding: const EdgeInsets.fromLTRB(
-                                                                            8,
-                                                                            6,
-                                                                            6,
-                                                                            6),
-                                                                        decoration: BoxDecoration(
-                                                                            color:
-                                                                                Colors.blue,
-                                                                            borderRadius: BorderRadius.circular(10)),
+                                                                      GestureDetector(
+                                                                        onTap:
+                                                                            () {},
                                                                         child:
-                                                                            Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          children: [
-                                                                            Text("Lihat",
-                                                                                style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
-                                                                            const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 9,
-                                                                              color: Colors.white,
-                                                                            )
-                                                                          ],
+                                                                            Container(
+                                                                          margin:
+                                                                              const EdgeInsets.only(top: 10),
+                                                                          padding: const EdgeInsets.fromLTRB(
+                                                                              8,
+                                                                              6,
+                                                                              6,
+                                                                              6),
+                                                                          decoration: BoxDecoration(
+                                                                              color: Colors.blue,
+                                                                              borderRadius: BorderRadius.circular(10)),
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text("Lihat", style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                                                                              const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 9,
+                                                                                color: Colors.white,
+                                                                              )
+                                                                            ],
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],

@@ -14,31 +14,31 @@ class GetDataProflie {
   Future<Profile?> getDataUserProfile() async {
     SharedPreferences getToken = await SharedPreferences.getInstance();
     String? auth = getToken.getString("token");
-    try {
-      final response = await http.get(
-        Uri.parse(baseLinkC.baseUrlUrlLaucer3 + '/api/siswa/profil'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': '$auth',
-        },
-      );
-      if (response.statusCode != 200) {
-        // ignore: avoid_print
-        print("TIDAK DAPAT DATA DARI SERVER");
-
-        return null;
-      } else {
-        Map<String, dynamic> data =
-            (json.decode(response.body)["biodata"] as Map<String, dynamic>);
-
-        // ignore: avoid_print
-        print("DAPAT DATA DARI SERVER");
-        return Profile.fromJson(data);
-      }
-    } catch (e) {
+    print(auth);
+    // try {
+    final response = await http.get(
+      Uri.parse(baseLinkC.baseUrlUrlLaucer3 + '/api/siswa/profil'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': '$auth',
+      },
+    );
+    if (response.statusCode != 200) {
       // ignore: avoid_print
-      print(e.toString());
+      print("TIDAK DAPAT DATA DARI SERVER Profile");
+      return null;
+    } else {
+      Map<String, dynamic> data =
+          (json.decode(response.body)["biodata"] as Map<String, dynamic>);
+
+      // ignore: avoid_print
+      print("DAPAT DATA DARI SERVER");
+      return Profile.fromJson(data);
     }
+    // } catch (e) {
+    //   // ignore: avoid_print
+    //   print(e.toString());
+    // }
   }
 }

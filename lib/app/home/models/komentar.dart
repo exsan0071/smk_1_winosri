@@ -55,12 +55,12 @@ class Datum {
   String photo;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        komentarId: json["komentar_id"],
-        komentarNama: json["komentar_nama"],
-        komentarIsi: json["komentar_isi"],
-        komentarTanggal: json["komentar_tanggal"],
-        source: json["source"],
-        photo: json["photo"],
+        komentarId: json["komentar_id"].toString(),
+        komentarNama: json["komentar_nama"].toString(),
+        komentarIsi: json["komentar_isi"].toString(),
+        komentarTanggal: json["komentar_tanggal"].toString(),
+        source: json["source"].toString(),
+        photo: json["photo"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

@@ -28,14 +28,14 @@ class GetDataHome {
       return null;
     } else {
       Iterable it = jsonDecode(response.body)['data'];
-      try {
-        List<Data> dataUserBlog =
-            it.map((value) => Data.fromJson(value)).toList();
-        return dataUserBlog;
-      } catch (e) {
-        // ignore: avoid_print
-        print(e.toString());
-      }
+      // try {
+      List<Data> dataUserBlog =
+          it.map((value) => Data.fromJson(value)).toList();
+      return dataUserBlog;
+      // } catch (e) {
+      //   // ignore: avoid_print
+      //   print(e.toString());
+      // }
     }
   }
 }

@@ -14,7 +14,6 @@ class GetCommment {
   Future<KomentModels?> getKomentar(String id) async {
     final _baseUrl = baseLinkC.baseUrlUrlLaucer3 +
         '/api/status/komen?id=$id&tipe=status&offset=0';
-
     try {
       SharedPreferences getToken = await SharedPreferences.getInstance();
       String? auth = getToken.getString("token");
@@ -35,7 +34,6 @@ class GetCommment {
         return data;
       }
     } catch (e) {
-      // ignore: avoid_print
       print(e.toString());
     }
   }
