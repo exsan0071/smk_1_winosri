@@ -14,7 +14,7 @@ class GetDataProflie {
   Future<Profile?> getDataUserProfile() async {
     SharedPreferences getToken = await SharedPreferences.getInstance();
     String? auth = getToken.getString("token");
-    print(auth);
+
     // try {
     final response = await http.get(
       Uri.parse(baseLinkC.baseUrlUrlLaucer3 + '/api/siswa/profil'),

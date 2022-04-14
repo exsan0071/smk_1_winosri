@@ -17,27 +17,27 @@ class TugasProvider {
   Future<TugasSiswa?> getTugas(String offset) async {
     final _baseUrl =
         baseLinkC.baseUrlUrlLaucer3 + '/api/tugas?offset=$offset&limit=5';
-    // try {
-    SharedPreferences getToken = await SharedPreferences.getInstance();
-    String? auth = getToken.getString("token");
-    final response = await http.get(
-      Uri.parse(_baseUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': '$auth',
-      },
-    );
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      final data = tugasSiswaFromJson(response.body);
-      return data;
+    try {
+      SharedPreferences getToken = await SharedPreferences.getInstance();
+      String? auth = getToken.getString("token");
+      final response = await http.get(
+        Uri.parse(_baseUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': '$auth',
+        },
+      );
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        final data = tugasSiswaFromJson(response.body);
+        return data;
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
     }
-    // } catch (e) {
-    //   // ignore: avoid_print
-    //   print(e.toString());
-    // }
   }
 
   // ignore: body_might_complete_normally_nullable
@@ -132,8 +132,6 @@ class TugasProvider {
     SharedPreferences getToken = await SharedPreferences.getInstance();
     // ignore: unused_local_variable
     String? auth = getToken.getString("token");
-    print(auth);
-    print(id);
     final response = await http.get(
       Uri.parse(_baseUrl),
       headers: {
