@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,9 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
+import '../../gurupage/webview.dart';
 import '../../home/views/home.dart';
+import '../models/jurusan_models.dart';
 import '../provider/login_provider.dart';
 import '../../../app/home/controller/loading.dart';
 import '../../../app_theme.dart';
@@ -30,6 +33,30 @@ class _LoginState extends State<Login> {
   final LoginController loginC = Get.put(LoginController());
   final OoboardingController ooboardingC = Get.put(OoboardingController());
   final BaseLInkController baseLinkC = Get.put(BaseLInkController());
+  Future getUserJurusan() async {
+    try {
+      final response =
+          await http.get(Uri.parse(baseLinkC.baseUrlUrlLaucer3 + '/api/kelas'));
+      // ignore: avoid_print
+      print(response.statusCode);
+      if (response.statusCode != 200) {
+        // ignore: avoid_print
+        print("TIDAK DAPAT DATA KELAS DARI SERVER ");
+        return null;
+      } else {
+        final data = jsonDecode(response.body)['data'];
+
+        for (Map<String, dynamic> i in data) {
+          loginC.categoryList.add(DataJurusan.fromJson(i));
+        }
+        // ignore: avoid_print
+        print("DAPAT DATA KELAS DARI SERVER ");
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
+    }
+  }
 
   Future _login() async {
     if (loginC.usernameControler.text.isEmpty ||
@@ -69,6 +96,7 @@ class _LoginState extends State<Login> {
     final auth = authFromJson(response.body);
     //authentications cheek here....
     if (auth.status == 'true') {
+      // use the returned token to send messages to users from your custom server
       loginC.tokenCache(auth.token);
 
       SharedPreferences getToken = await SharedPreferences.getInstance();
@@ -119,7 +147,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     getToken();
-    getDataLogin.getUserJurusan();
+    getUserJurusan();
   }
 
   @override
@@ -157,7 +185,7 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 50),
+                        padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Image.asset(
                           "assets/images/logo.png",
                           width: 80,
@@ -171,7 +199,7 @@ class _LoginState extends State<Login> {
                               child: AnimatedContainer(
                                 duration: const Duration(microseconds: 700),
                                 curve: Curves.bounceInOut,
-                                height: 420,
+                                height: 495,
                                 padding: const EdgeInsets.all(20),
                                 width: MediaQuery.of(context).size.width - 20,
                                 margin:
@@ -222,7 +250,6 @@ class _LoginState extends State<Login> {
                                         ),
                                       ],
                                     ),
-                                    // if (loginC.isGuru)
                                     SingleChildScrollView(
                                       padding: const EdgeInsets.only(top: 20),
                                       child: Column(
@@ -251,48 +278,56 @@ class _LoginState extends State<Login> {
                                                     )
                                                   ]),
                                               height: 50,
-                                              child: Row(children: [
-                                                Container(
-                                                    margin: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 10),
-                                                    child: const Icon(
-                                                      Icons.class_,
-                                                      size: 20,
-                                                      color: AppTheme.blueligt,
-                                                    )),
-                                                const SizedBox(
-                                                  width: 15,
-                                                ),
-                                                DropdownButton(
-                                                  underline: Container(),
-                                                  elevation: 16,
-                                                  value: loginC.selectedName,
-                                                  hint: const Text(
-                                                      'Pilih Kelas Anda'),
-                                                  style: GoogleFonts.roboto(
-                                                      color: Colors.black54,
-                                                      fontSize: 14),
-                                                  items: loginC.categoryList
-                                                      .map(
-                                                        (list) =>
-                                                            DropdownMenuItem(
-                                                          child: Text(
-                                                              list.status +
+                                              child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                        margin: const EdgeInsets
+                                                                .symmetric(
+                                                            vertical: 10),
+                                                        child: const Icon(
+                                                          Icons.class_,
+                                                          size: 20,
+                                                          color:
+                                                              AppTheme.blueligt,
+                                                        )),
+                                                    const SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    DropdownButton(
+                                                      underline: Container(),
+                                                      elevation: 16,
+                                                      value:
+                                                          loginC.selectedName,
+                                                      hint: const SizedBox(
+                                                        width: 170,
+                                                        child: Text(
+                                                            'Pilih Kelas Anda'),
+                                                      ),
+                                                      style: GoogleFonts.roboto(
+                                                          color: Colors.black54,
+                                                          fontSize: 14),
+                                                      items: loginC.categoryList
+                                                          .map(
+                                                            (list) =>
+                                                                DropdownMenuItem(
+                                                              child: Text(list
+                                                                      .status +
                                                                   "-" +
                                                                   list.nama),
-                                                          value: list.id,
-                                                        ),
-                                                      )
-                                                      .toList(),
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      loginC.selectedName =
-                                                          value.toString();
-                                                    });
-                                                  },
-                                                ),
-                                              ])),
+                                                              value: list.id,
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          loginC.selectedName =
+                                                              value.toString();
+                                                        });
+                                                      },
+                                                    ),
+                                                  ])),
                                           const SizedBox(
                                             height: 10,
                                           ),
@@ -313,10 +348,7 @@ class _LoginState extends State<Login> {
                                                       color: Colors.grey[500],
                                                       fontSize: 12)),
                                               TextButton(
-                                                  onPressed: () {
-                                                    Get.toNamed(
-                                                        '/resetPassword');
-                                                  },
+                                                  onPressed: () {},
                                                   child: const Text(
                                                       'Forget Passwword ?',
                                                       style: TextStyle(
@@ -349,30 +381,33 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
                                     ),
-                                    // if (!loginC.isGuru)
-                                    //   Container(
-                                    //     padding: const EdgeInsets.symmetric(
-                                    //         vertical: 15),
-                                    //     width: double.infinity,
-
-                                    //     // ignore: deprecated_member_use
-                                    //     child: ElevatedButton(
-                                    //       style: ElevatedButton.styleFrom(
-                                    //           primary: AppTheme.primariyLogin,
-                                    //           minimumSize: const Size(252, 51),
-                                    //           shape: RoundedRectangleBorder(
-                                    //               borderRadius:
-                                    //                   BorderRadius.circular(
-                                    //                       15))),
-                                    //       onPressed: () {},
-                                    //       child: const Text(
-                                    //         "Login",
-                                    //         style: TextStyle(
-                                    //             color: Colors.white,
-                                    //             fontSize: 16),
-                                    //       ),
-                                    //     ),
-                                    //   ),
+                                    const Divider(color: Color(0xFF7F7F7F)),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      width: double.infinity,
+                                      height: 50,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: AppTheme.primariyLogin,
+                                            minimumSize: const Size(252, 51),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15))),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const WebviewPage()));
+                                        },
+                                        child: const Text(
+                                          "Login sebagai Guru",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ))
